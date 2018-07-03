@@ -23,6 +23,37 @@ print("最小值",TData['age'].min())
 print("标准差",TData['age'].std())
 #船票价格分布
 #TData['fare'].hist(bins=40)
-
-TData.groupby(TData['embarked'])['name'].count()
+'''
+data=TData.groupby(TData['embarked'])['name'].count()
+print(data)
+P1 = sns.factorplot(x='embarked',y='fare',data=TData, order=["C","S","Q"])
+P2 = sns.boxplot(x='embarked', y='fare', hue='pclass', data=TData,order=["C","S","Q"])
+P2.set(ylim=(0,300))
 plt.show()
+'''
+#定义生还率计算函数
+def survival_rate(data):
+    return data.sum()/data.count()
+#按Pclass进行分组，提取Survived列，再计算生还比率
+'''
+Pclass_group=TData.groupby('pclass')['survived']
+Pclass_group_rate=Pclass_group.apply(survival_rate)
+print(Pclass_group_rate)
+Pclass_group_rate.plot(kind='bar')
+plt.xlabel('Passenger Class')
+plt.ylabel('Survival Rate')
+'''
+Fare_group = TData.groupby(pd.qcut(TData['fare'],5))['survived']
+Fare_group_rate=Fare_group.apply(survival_rate)
+Fare_group_rate.plot()
+plt.show()
+
+
+
+
+
+
+
+
+
+
