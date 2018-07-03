@@ -42,10 +42,23 @@ print(Pclass_group_rate)
 Pclass_group_rate.plot(kind='bar')
 plt.xlabel('Passenger Class')
 plt.ylabel('Survival Rate')
-'''
+
 Fare_group = TData.groupby(pd.qcut(TData['fare'],5))['survived']
 Fare_group_rate=Fare_group.apply(survival_rate)
-Fare_group_rate.plot()
+Fare_group_rate.plot()'''
+def cabin_class(data):
+    return str(data)[0]
+TData['Cabin_class']=TData['cabin'].apply(cabin_class)
+cabin_group=TData.groupby(TData['Cabin_class'])['survived']
+cabin_group_rate=cabin_group.apply(survival_rate)
+print(cabin_group.count())
+print("")
+print(cabin_group_rate)
+a=0
+for i in TData['cabin']:
+    if str(i)[0]=='T':
+        print(TData.loc[a]) #loc选取行
+    a=a+1
 plt.show()
 
 
